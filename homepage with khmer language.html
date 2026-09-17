@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skincare E-commerce Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', 'Kantumruy Pro', Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f9f9f9;
+      padding-bottom: 50px;
+    }
+
+    /* Top Banner Bar */
+    .top-banner {
+      background-color: #8A2BE2;
+      color: #fff;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .banner-text {
+      flex: 1;
+      text-align: center;
+    }
+
+    .top-right-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .lang-btn, .cart-btn {
+      background: #ffffff;
+      color: #8A2BE2;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn:hover, .cart-btn:hover {
+      background: #f0f0f0;
+      transform: scale(1.05);
+    }
+
+    /* Main Navigation Bar */
+    .navbar {
+      background-color: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-item {
+      padding: 15px 30px;
+      position: relative;
+    }
+
+    .nav-item > a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-item:hover > a {
+      color: #2e7d32;
+    }
+
+    /* Mega Menu Hover Dropdowns */
+    .mega-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #fff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      border-top: 2px solid #2e7d32;
+      padding: 20px 25px;
+      z-index: 100;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .nav-item:hover .mega-menu {
+      display: flex;
+    }
+
+    .skincare-menu { width: 500px; justify-content: space-between; }
+    .sale-menu { width: 360px; flex-direction: column; align-items: center; }
+    .brand-menu { width: 520px; justify-content: space-between; }
+
+    .menu-column { flex: 1; padding: 0 15px; }
+    .menu-section { margin-bottom: 15px; }
+    .menu-title { font-size: 13px; font-weight: bold; color: #2e7d32; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 4px; }
+    .menu-list { list-style: none; }
+    .menu-list li { margin-bottom: 8px; }
+    .menu-list a { text-decoration: none; color: #555; font-size: 13px; transition: color 0.2s; }
+    .menu-list a:hover { color: #2e7d32; font-weight: bold; }
+    .brand-grid { display: flex; gap: 30px; }
+
+    .promo-card {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #c8e6c9;
+      background-color: #f4f8f5;
+      text-align: center;
+      padding-bottom: 15px;
+    }
+
+    .promo-card img { width: 100%; height: auto; display: block; margin-bottom: 10px; }
+
+    /* Store Products Section */
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #222;
+      border-bottom: 2px solid #2e7d32;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      border: 1px solid #e0e0e0;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .product-img {
+      width: 100%;
+      height: 180px;
+      object-fit: fill;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .product-title { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #333; }
+    .product-price { font-size: 16px; color: #2e7d32; font-weight: bold; margin-bottom: 12px; }
+
+    .add-to-cart-btn {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+
+    .add-to-cart-btn:hover { background-color: #1b5e20; }
+
+    /* Pop-up Overlay & Box */
+    .popup-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(0, 0, 0, 0.65);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-box {
+      background: #ffffff;
+      width: 450px;
+      max-width: 90%;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.35);
+      animation: popupAnimation 0.3s ease-out;
+    }
+
+    @keyframes popupAnimation {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px; right: 12px;
+      font-size: 20px; font-weight: bold; color: #ffffff;
+      background: rgba(0, 0, 0, 0.5);
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 10;
+    }
+
+    .popup-image-container {
+      width: 100%; max-height: 80vh;
+      overflow: hidden; display: flex; justify-content: center; align-items: center;
+    }
+
+    .popup-image-container img { width: 100%; height: 100%; object-fit: fill; display: block; }
+    .popup-content { padding: 20px; text-align: center; }
+
+    .popup-btn {
+      background-color: #2e7d32; color: #ffffff;
+      padding: 12px 30px; border: none; border-radius: 6px;
+      font-size: 15px; font-weight: bold; cursor: pointer;
+      text-decoration: none; display: block; width: 100%;
+    }
+
+    /* Slide-out Cart */
+    .cart-modal {
+      display: none;
+      position: fixed;
+      top: 0; right: 0;
+      width: 360px; height: 100vh;
+      background: #fff;
+      box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+      z-index: 1001;
+      padding: 20px;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    .cart-items { flex: 1; overflow-y: auto; margin: 15px 0; }
+    .cart-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px; border-bottom: 1px dashed #eee; padding-bottom: 6px; }
+    .cart-total { font-weight: bold; font-size: 16px; margin-bottom: 15px; display: flex; justify-content: space-between; }
+    .checkout-form input { width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <!-- Pop-up Ad -->
+  <div class="popup-overlay" id="popupAd">
+    <div class="popup-box">
+      <span class="close-btn" onclick="closePopup()">&times;</span>
+      <div class="popup-image-container">
+        <img id="popup-img" src="pchumbeneng.png" alt="Pchum Ben Sale Ad">
+      </div>
+      <div class="popup-content">
+        <button class="popup-btn" id="popup-btn" onclick="closePopupAndScroll()">SHOP THE SALE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    <div class="banner-text" id="top-banner-text">
+      Sale: Up to 50% off all brands for upcoming Pchum Ben!
+    </div>
+    <div class="top-right-actions">
+      <button class="cart-btn" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</button>
+      <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">🇰🇭 ភាសាខ្មែរ</button>
+    </div>
+  </div>
+
+  <!-- Header Navigation with Hover Dropdowns -->
+  <nav class="navbar">
+    <ul class="nav-menu">
+
+      <!-- 1. SKINCARE Dropdown -->
+      <li class="nav-item">
+        <a href="#" id="nav-skincare">Skincare</a>
+        <div class="mega-menu skincare-menu">
+          <div class="menu-column">
+            <div class="menu-section">
+              <h3 class="menu-title" id="title-facecare">Face Care</h3>
+              <ul class="menu-list">
+                <li><a href="#" id="link-cleansers">Face Cleansers</a></li>
+                <li><a href="#" id="link-serums">Face Serums</a></li>
+                <li><a href="#" id="link-moisturizers">Moisturizers</a></li>
+                <li><a href="#" id="link-toners">Toners</a></li>
+                <li><a href="#" id="link-sunscreens">Sunscreens</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="menu-column">
+            <div class="menu-section">
+              <h3 class="menu-title" id="title-haircare">Hair Care</h3>
+              <ul class="menu-list">
+                <li><a href="#" id="link-hair-treatments">Hair Treatments</a></li>
+                <li><a href="#" id="link-shampoos">Shampoos</a></li>
+              </ul>
+            </div>
+            <div class="menu-section">
+              <h3 class="menu-title" id="title-bodycare">Body Care</h3>
+              <ul class="menu-list">
+                <li><a href="#" id="link-bath-shower">Bath & Showers</a></li>
+                <li><a href="#" id="link-body-moisturizer">Body Moisturizers</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 2. SALE Dropdown -->
+      <li class="nav-item">
+        <a href="#featured-products" id="nav-sale">Sale</a>
+        <div class="mega-menu sale-menu">
+          <div class="promo-card">
+            <img id="sale-menu-img" src="pchumbeneng.png" alt="Pchum Ben Sale">
+            <button class="add-to-cart-btn" onclick="addBundleToCart()" style="width: 85%;">BUY SPECIAL BUNDLE ($25.00)</button>
+          </div>
+        </div>
+      </li>
+
+      <!-- 3. BRAND Dropdown -->
+      <li class="nav-item">
+        <a href="#" id="nav-brand">Brand</a>
+        <div class="mega-menu brand-menu">
+          <div class="menu-column">
+            <h3 class="menu-title" id="title-brands">All Brands</h3>
+            <div class="brand-grid">
+              <ul class="menu-list">
+                <li><a href="#">Anua</a></li>
+                <li><a href="#">Beauty of Joseon</a></li>
+                <li><a href="#">COSRX</a></li>
+                <li><a href="#">IUNIK</a></li>
+              </ul>
+              <ul class="menu-list">
+                <li><a href="#">Medicube</a></li>
+                <li><a href="#">Dr. Althea</a></li>
+                <li><a href="#">Numbuzin</a></li>
+                <li><a href="#">Goodal</a></li>
+              </ul>
+              <ul class="menu-list">
+                <li><a href="#">Biodance</a></li>
+                <li><a href="#">MIXSOON</a></li>
+                <li><a href="#">LANEIGE</a></li>
+                <li><a href="#">UNOVE</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+
+    </ul>
+  </nav>
+
+  <!-- Products Section -->
+  <div class="container" id="featured-products">
+    <h2 class="section-title" id="featured-title">Pchum Ben Special Discount Products</h2>
+    <div class="product-grid">
+      
+      <div class="product-card">
+        <img id="product-img-1" src="pchumbeneng.png" alt="Cleanser" class="product-img">
+        <div class="product-title" id="p1-title">Anua Heartleaf Cleansing Foam</div>
+        <div class="product-price">$12.00</div>
+        <button class="add-to-cart-btn" onclick="addToCart('Anua Cleansing Foam', 12.00)">ADD TO CART</button>
+      </div>
+
+      <div class="product-card">
+        <img id="product-img-2" src="pchumbeneng.png" alt="Serum" class="product-img">
+        <div class="product-title" id="p2-title">Beauty of Joseon Glow Serum</div>
+        <div class="product-price">$14.50</div>
+        <button class="add-to-cart-btn" onclick="addToCart('Beauty of Joseon Serum', 14.50)">ADD TO CART</button>
+      </div>
+
+      <div class="product-card">
+        <img id="product-img-3" src="pchumbeneng.png" alt="Sunscreen" class="product-img">
+        <div class="product-title" id="p3-title">COSRX Aloe Soothing Sunscreen</div>
+        <div class="product-price">$11.00</div>
+        <button class="add-to-cart-btn" onclick="addToCart('COSRX Sunscreen', 11.00)">ADD TO CART</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cartModal">
+    <div>
+      <div class="cart-header">
+        <h3 id="cart-title">Your Cart</h3>
+        <span style="cursor:pointer; font-weight:bold;" onclick="toggleCart()">&times;</span>
+      </div>
+      <div class="cart-items" id="cart-items-list">
+        <p style="color:#888; font-size:13px;" id="empty-msg">Your cart is empty.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="cart-total">
+        <span id="total-label">Total:</span>
+        <span id="cart-total-price">$0.00</span>
+      </div>
+      <form class="checkout-form" onsubmit="processOrder(event)">
+        <input type="text" placeholder="Full Name" required>
+        <input type="tel" placeholder="Phone Number (e.g., 012...)" required>
+        <input type="text" placeholder="Delivery Address" required>
+        <button type="submit" class="popup-btn" style="margin-top:5px;" id="checkout-btn">PLACE ORDER NOW</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- App Script -->
+  <script>
+    let currentLang = 'en';
+    let cart = [];
+
+    const translations = {
+      en: {
+        langBtn: "🇰🇭 ភាសាខ្មែរ",
+        topBanner: "Sale: Up to 50% off all brands for upcoming Pchum Ben!",
+        navSkincare: "Skincare", navSale: "Sale", navBrand: "Brand",
+        titleFacecare: "Face Care", linkCleansers: "Face Cleansers", linkSerums: "Face Serums", linkMoisturizers: "Moisturizers", linkToners: "Toners", linkSunscreens: "Sunscreens",
+        titleHaircare: "Hair Care", linkHairTreatments: "Hair Treatments", linkShampoos: "Shampoos",
+        titleBodycare: "Body Care", linkBathShower: "Bath & Showers", linkBodyMoisturizer: "Body Moisturizers",
+        titleBrands: "All Brands",
+        popupImgSrc: "pchumbeneng.png", popupBtn: "SHOP THE SALE",
+        featuredTitle: "Pchum Ben Special Discount Products",
+        cartTitle: "Your Cart", emptyMsg: "Your cart is empty.",
+        totalLabel: "Total:", checkoutBtn: "PLACE ORDER NOW",
+        alertOrder: "Thank you for your order! We will call you to confirm delivery."
+      },
+      km: {
+        langBtn: "🇬🇧 English",
+        topBanner: "ការបញ្ចុះតម្លៃ៖ បញ្ចុះតម្លៃរហូតដល់ ៥០% លើគ្រប់ម៉ាកផលិតផល សម្រាប់ពិធីបុណ្យភ្ជុំបិណ្ឌ!",
+        navSkincare: "ថែរក្សាស្បែក", navSale: "បញ្ចុះតម្លៃ", navBrand: "ម៉ាកផលិតផល",
+        titleFacecare: "ថែរក្សាផ្ទៃមុខ", linkCleansers: "សាប៊ូលាងមុខ", linkSerums: "សេរ៉ូមលាបមុខ", linkMoisturizers: "គ្រីមផ្តល់សំណើម", linkToners: "ទឹកតូណ័រ", linkSunscreens: "គ្រីមការពារកម្តៅថ្ងៃ",
+        titleHaircare: "ថែរក្សាសក់", linkHairTreatments: "ផលិតផលព្យាបាលសក់", linkShampoos: "សាប៊ូកក់សក់",
+        titleBodycare: "ថែរក្សាកាយសម្បទា", linkBathShower: "សាប៊ូតងផ្កាឈូក", linkBodyMoisturizer: "គ្រីមលាបខ្លួន",
+        titleBrands: "ម៉ាកផលិតផលទាំងអស់",
+        popupImgSrc: "pchumbenkh.png", popupBtn: "ទិញទំនិញឥឡូវនេះ",
+        featuredTitle: "ផលិតផលបញ្ចុះតម្លៃពិសេសពិធីបុណ្យភ្ជុំបិណ្ឌ",
+        cartTitle: "កន្ត្រកទំនិញរបស់អ្នក", emptyMsg: "កន្ត្រកទំនិញរបស់អ្នកទទេស្អាត។",
+        totalLabel: "សរុប៖", checkoutBtn: "បញ្ជាទិញឥឡូវនេះ",
+        alertOrder: "សូមអរគុណសម្រាប់ការបញ្ជាទិញ! យើងខ្ញុំនឹងទាក់ទងទៅអ្នកដើម្បីបញ្ជាក់ការដឹកជញ្ជូន។"
+      }
+    };
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'km' : 'en';
+      const langData = translations[currentLang];
+
+      document.getElementById('langBtn').innerText = langData.langBtn;
+      document.getElementById('top-banner-text').innerText = langData.topBanner;
+      
+      // Nav links
+      document.getElementById('nav-skincare').innerText = langData.navSkincare;
+      document.getElementById('nav-sale').innerText = langData.navSale;
+      document.getElementById('nav-brand').innerText = langData.navBrand;
+
+      // Skincare Mega Menu
+      document.getElementById('title-facecare').innerText = langData.titleFacecare;
+      document.getElementById('link-cleansers').innerText = langData.linkCleansers;
+      document.getElementById('link-serums').innerText = langData.linkSerums;
+      document.getElementById('link-moisturizers').innerText = langData.linkMoisturizers;
+      document.getElementById('link-toners').innerText = langData.linkToners;
+      document.getElementById('link-sunscreens').innerText = langData.linkSunscreens;
+
+      document.getElementById('title-haircare').innerText = langData.titleHaircare;
+      document.getElementById('link-hair-treatments').innerText = langData.linkHairTreatments;
+      document.getElementById('link-shampoos').innerText = langData.linkShampoos;
+
+      document.getElementById('title-bodycare').innerText = langData.titleBodycare;
+      document.getElementById('link-bath-shower').innerText = langData.linkBathShower;
+      document.getElementById('link-body-moisturizer').innerText = langData.linkBodyMoisturizer;
+
+      // Brand Menu
+      document.getElementById('title-brands').innerText = langData.titleBrands;
+
+      // Featured Title
+      document.getElementById('featured-title').innerText = langData.featuredTitle;
+
+      // Images
+      document.getElementById('sale-menu-img').src = langData.popupImgSrc;
+      document.getElementById('product-img-1').src = langData.popupImgSrc;
+      document.getElementById('product-img-2').src = langData.popupImgSrc;
+      document.getElementById('product-img-3').src = langData.popupImgSrc;
+
+      // Popup
+      document.getElementById('popup-img').src = langData.popupImgSrc;
+      document.getElementById('popup-btn').innerText = langData.popupBtn;
+      document.getElementById('popupAd').style.display = 'flex';
+
+      // Update cart labels if visible
+      updateCartUI();
+    }
+
+    function closePopup() { document.getElementById('popupAd').style.display = 'none'; }
+
+    function closePopupAndScroll() {
+      closePopup();
+      document.getElementById('featured-products').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleCart() {
+      const modal = document.getElementById('cartModal');
+      modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function addToCart(title, price) {
+      cart.push({ title, price });
+      updateCartUI();
+      toggleCart();
+    }
+
+    function addBundleToCart() {
+      addToCart("Pchum Ben Special Package", 25.00);
+    }
+
+    function updateCartUI() {
+      document.getElementById('cart-count').innerText = cart.length;
+      const listContainer = document.getElementById('cart-items-list');
+      
+      listContainer.innerHTML = "";
+
+      if (cart.length === 0) {
+        listContainer.innerHTML = `<p style="color:#888; font-size:13px;">${translations[currentLang].emptyMsg}</p>`;
+        document.getElementById('cart-total-price').innerText = "$0.00";
+        return;
+      }
+
+      let total = 0;
+      cart.forEach((item, index) => {
+        total += item.price;
+        const itemRow = document.createElement('div');
+        itemRow.className = 'cart-item';
+        itemRow.innerHTML = `
+          <span>${index + 1}. ${item.title}</span>
+          <span>$${item.price.toFixed(2)}</span>
+        `;
+        listContainer.appendChild(itemRow);
+      });
+
+      document.getElementById('cart-total-price').innerText = "$" + total.toFixed(2);
+    }
+
+    function processOrder(event) {
+      event.preventDefault();
+      if (cart.length === 0) {
+        alert(translations[currentLang].emptyMsg);
+        return;
+      }
+      alert(translations[currentLang].alertOrder);
+      cart = [];
+      updateCartUI();
+      toggleCart();
+    }
+  </script>
+</body>
+</html>
